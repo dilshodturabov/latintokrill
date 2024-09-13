@@ -67,9 +67,16 @@
             'ъ': "'", 'ы': 'i', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya', 'қ': 'q', 'ў': "o'", 'ғ': "g'", 'ҳ': 'x'
         };
 
-        const latinToCyrillicMap = Object.fromEntries(
-            Object.entries(cyrillicToLatinMap).map(([key, value]) => [value, key])
-        );
+        const latinToCyrillicMap = {
+            'A': 'А', 'B': 'Б', 'V': 'В', 'G': 'Г', 'D': 'Д', 'E': 'Е', 'Yo': 'Ё', 'J': 'Ж', 'Z': 'З',
+            'I': 'И', 'Y': 'Й', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н', 'O': 'О', 'P': 'П', 'R': 'Р',
+            'S': 'С', 'T': 'Т', 'U': 'У', 'F': 'Ф', 'X': 'Х', 'Ts': 'Ц', 'Ch': 'Ч', 'Sh': 'Ш', 'Sha': 'Щ',
+            "'": 'Ъ', 'I': 'Ы', '': 'Ь', 'E': 'Э', 'Yu': 'Ю', 'Ya': 'Я', 'Q': 'Қ', "O'": 'Ў', "G'": 'Ғ', 'X': 'Ҳ',
+            'a': 'а', 'b': 'б', 'v': 'в', 'g': 'г', 'd': 'д', 'e': 'е', 'yo': 'ё', 'j': 'ж', 'z': 'з',
+            'i': 'и', 'y': 'й', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н', 'o': 'о', 'p': 'п', 'r': 'р',
+            's': 'с', 't': 'т', 'u': 'у', 'f': 'ф', 'x': 'х', 'ts': 'ц', 'ch': 'ч', 'sh': 'ш', 'sh': 'щ',
+            "'": 'ъ', 'i': 'ы', '': 'ь', 'e': 'э', 'yu': 'ю', 'ya': 'я', 'q': 'қ', "o'": 'ў', "g'": 'ғ', 'x': 'ҳ'
+        };
 
         function convertText() {
             const text = document.getElementById('inputText').value;
@@ -79,7 +86,7 @@
             if (direction === 'cyrillicToLatin') {
                 result = convertCyrillicToLatin(text);
             } else if (direction === 'latinToCyrillic') {
-                result = convert(text, latinToCyrillicMap);
+                result = convertLatinToCyrillic(text);
             }
 
             document.getElementById('outputText').innerText = result;
@@ -98,6 +105,10 @@
                 }
                 return cyrillicToLatinMap[char] || char;
             }).join('');
+        }
+
+        function convertLatinToCyrillic(text) {
+            return text.replace(/ye/g, 'е').replace(/Ye/g, 'Е').split('').map(char => latinToCyrillicMap[char] || char).join('');
         }
 
         function isVowel(char) {
